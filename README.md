@@ -1,98 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 👤 Photo Manager - User Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Microserviço responsável pela autenticação e gerenciamento de usuários do Photo Manager.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Tecnologias
 
-## Description
+- **NestJS 11** - Framework Node.js
+- **Prisma 7** - ORM
+- **PostgreSQL** - Banco de dados
+- **Better Auth** - Sistema de autenticação
+- **Swagger** - Documentação da API
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📁 Estrutura do Projeto
 
-## Project setup
-
-```bash
-$ npm install
+```
+src/
+├── application/
+│   └── services/
+│       └── user.service.ts      # Lógica de negócio de usuários
+├── domain/
+│   ├── entities/
+│   │   └── user.entity.ts       # Entidade de usuário
+│   └── repositories/
+│       └── user.repo.ts         # Interface do repositório
+├── infrastructure/
+│   ├── controllers/
+│   │   └── user.controller.ts   # Endpoints de usuário
+│   ├── db/
+│   │   └── prisma/              # Configuração do Prisma
+│   │       ├── prisma.service.ts
+│   │       ├── prisma.context.ts
+│   │       ├── transaction-context.ts
+│   │       └── transactional.decorator.ts
+│   └── repositories/
+│       └── prisma-user.repo.ts  # Implementação do repositório
+├── auth.ts                       # Configuração do Better Auth
+├── app.module.ts
+└── main.ts
 ```
 
-## Compile and run the project
+## 🛠️ Scripts Disponíveis
 
 ```bash
-# development
-$ npm run start
+# Desenvolvimento
+pnpm start:dev      # Inicia em modo watch
+pnpm start:debug    # Inicia em modo debug
 
-# watch mode
-$ npm run start:dev
+# Build
+pnpm build          # Compila o projeto
 
-# production mode
-$ npm run start:prod
+# Produção
+pnpm start:prod     # Executa o build de produção
+
+# Testes
+pnpm test           # Executa testes unitários
+pnpm test:watch     # Testes em modo watch
+pnpm test:cov       # Testes com cobertura
+pnpm test:e2e       # Testes end-to-end
+
+# Prisma
+pnpm prisma:generate   # Gera o cliente Prisma
+pnpm prisma:create     # Cria nova migration
+pnpm prisma:migrate    # Executa migrations
+pnpm prisma:studio     # Abre Prisma Studio
+
+# Lint
+pnpm lint           # Executa ESLint
+pnpm format         # Formata código com Prettier
 ```
 
-## Run tests
+## ⚙️ Configuração
+
+### Variáveis de Ambiente
+
+```env
+# Database
+DATABASE_URL=postgres://user:password@localhost:5432/photomanager
+
+# Server
+PORT=3000
+
+# Better Auth
+BETTER_AUTH_SECRET=your-secret-key
+BETTER_AUTH_URL=http://localhost:3000
+
+# Redis (opcional, para sessões)
+REDIS_URL=redis://localhost:6379
+```
+
+### Instalação
 
 ```bash
-# unit tests
-$ npm run test
+# Instalar dependências
+pnpm install
 
-# e2e tests
-$ npm run test:e2e
+# Gerar cliente Prisma
+pnpm prisma:generate
 
-# test coverage
-$ npm run test:cov
+# Executar migrations
+pnpm prisma:migrate
+
+# Iniciar em modo desenvolvimento
+pnpm start:dev
 ```
 
-## Deployment
+O serviço estará disponível em `http://localhost:3000`.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📖 API Endpoints
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Autenticação (Better Auth)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/api/auth/sign-up/email` | Registro com email |
+| POST | `/api/auth/sign-in/email` | Login com email |
+| POST | `/api/auth/sign-out` | Logout |
+| GET | `/api/auth/session` | Obter sessão atual |
+| POST | `/api/auth/forget-password` | Recuperar senha |
+| POST | `/api/auth/reset-password` | Redefinir senha |
+
+### Usuários
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/users/v1/me` | Dados do usuário logado |
+| PATCH | `/users/v1/me` | Atualizar perfil |
+
+### Documentação Swagger
+
+Acesse `http://localhost:3000/docs` para a documentação interativa.
+
+## 🎯 Funcionalidades
+
+### Autenticação
+- ✅ Registro de usuários
+- ✅ Login com email/senha
+- ✅ Gerenciamento de sessões
+- ✅ Tokens JWT
+- ✅ Recuperação de senha
+- ✅ Logout
+
+### Usuários
+- ✅ Perfil do usuário
+- ✅ Atualização de dados
+
+### Transações
+- ✅ Decorator `@Transactional()` para transações automáticas
+- ✅ Contexto de transação compartilhado
+- ✅ Rollback automático
+
+## 🔐 Better Auth
+
+Este serviço utiliza o **Better Auth** como sistema de autenticação, que fornece:
+
+- Autenticação segura com email/senha
+- Gerenciamento de sessões
+- Tokens JWT
+- Suporte a múltiplos provedores (configurável)
+
+### Configuração do Auth
+
+```typescript
+// src/auth.ts
+import { betterAuth } from 'better-auth';
+import { prismaAdapter } from '@thallesp/nestjs-better-auth';
+
+export const auth = betterAuth({
+  database: prismaAdapter(prisma),
+  emailAndPassword: {
+    enabled: true,
+  },
+  session: {
+    expiresIn: 60 * 60 * 24 * 7, // 7 dias
+    updateAge: 60 * 60 * 24, // Atualiza a cada dia
+  },
+});
+```
+
+
+## 🧪 Testes
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Testes unitários
+pnpm test
+
+# Testes com cobertura
+pnpm test:cov
+
+# Testes E2E
+pnpm test:e2e
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🔧 Debug
 
-## Resources
+### VSCode Launch Configuration
 
-Check out a few resources that may come in handy when working with NestJS:
+```json
+{
+  "name": "Debug user-service",
+  "type": "node",
+  "request": "launch",
+  "runtimeExecutable": "pnpm",
+  "runtimeArgs": ["run", "start:debug"],
+  "console": "integratedTerminal",
+  "restart": true,
+  "sourceMaps": true
+}
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 🐳 Docker
 
-## Support
+### Build da imagem
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+docker build -t photo-manager-user-service .
+```
 
-## Stay in touch
+### Executar container
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+docker run -p 3000:3000 \
+  -e DATABASE_URL=postgres://... \
+  -e BETTER_AUTH_SECRET=... \
+  photo-manager-user-service
+```
 
-## License
+## 🔗 Integração com Outros Serviços
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+O User Service é utilizado pelos outros serviços para:
+
+1. **Validação de tokens**: O Photo Service valida tokens JWT através do endpoint `/api/auth/session`
+2. **Identificação de usuários**: Todos os recursos são associados ao `userId` do usuário autenticado
+
+## 📄 Licença
+
+Este projeto é privado e de uso restrito.
