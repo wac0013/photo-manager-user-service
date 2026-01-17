@@ -6,6 +6,7 @@ import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Prisma, PrismaClient } from '@prisma/client';
 
+import { setPrismaServiceInstance } from './prisma.context';
 import { createSoftDeleteExtension } from './soft-delete.extension';
 import {
   addSavepoint,
@@ -52,6 +53,7 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
 
   async onModuleInit() {
     await this._client.$connect();
+    setPrismaServiceInstance(this);
   }
 
   async onModuleDestroy() {

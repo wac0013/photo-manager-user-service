@@ -1,4 +1,4 @@
-import { PrismaService } from './prisma.service';
+import { getPrismaServiceInstance } from './prisma.context';
 import { getTransactionContext, runInTransactionContext } from './transaction-context';
 import type { TransactionIsolationLevel, TransactionalOptions } from './types';
 
@@ -21,11 +21,11 @@ export function Transactional(options: TransactionalOptions = {}) {
     } = options;
 
     descriptor.value = async function (this: any, ...args: any[]) {
-      const prismaService = this.prisma || this._prisma || this.prismaService || this._prismaService;
+      const prismaService = getPrismaServiceInstance();
 
-      if (!prismaService || !(prismaService instanceof PrismaService)) {
+      if (!prismaService) {
         throw new Error(
-          'PrismaService não encontrado. Certifique-se de que o serviço possui PrismaService injetado como "prisma", "_prisma", "prismaService" ou "_prismaService".'
+          'PrismaService não encontrado. Certifique-se de que o PrismaModule foi inicializado antes de usar @Transactional().'
         );
       }
 
@@ -41,7 +41,7 @@ export function Transactional(options: TransactionalOptions = {}) {
         timeout
       };
 
-      const result = await (prismaService as any).$transaction(async (tx: any) => {
+      const result = await prismaService.$transaction(async (tx: any) => {
         const newContext = {
           transaction: tx,
           level: currentContext ? currentContext.level + 1 : 0,
