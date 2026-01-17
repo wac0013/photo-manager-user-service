@@ -111,12 +111,12 @@ O serviço estará disponível em `http://localhost:3000`.
 
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| POST | `/api/auth/sign-up/email` | Registro com email |
-| POST | `/api/auth/sign-in/email` | Login com email |
-| POST | `/api/auth/sign-out` | Logout |
-| GET | `/api/auth/session` | Obter sessão atual |
-| POST | `/api/auth/forget-password` | Recuperar senha |
-| POST | `/api/auth/reset-password` | Redefinir senha |
+| POST | `/api/users/v1/auth/sign-up/email` | Registro com email |
+| POST | `/api/users/v1/auth/sign-in/email` | Login com email |
+| POST | `/api/users/v1/auth/sign-out` | Logout |
+| GET | `/api/users/v1/auth/session` | Obter sessão atual |
+| POST | `/api/users/v1/auth/forget-password` | Solicitar recuperação de senha |
+| POST | `/api/users/v1/auth/reset-password` | Redefinir senha com token |
 
 ### Usuários
 
